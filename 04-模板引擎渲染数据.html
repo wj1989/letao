@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul class="category-left">
+        <li>各种馆</li>
+    </ul>
+     <!-- <%for (var i=0;i<list.length;i++) {%>
+                <div><%=i%>. <%=list[i].user%></div>
+        <%}%> -->
+    <!-- 原生模板 创建模板指定id 和 类型 -->
+    <script id="tpl" type="text/html">
+        <!-- 1. 原生语法遍历使用for循环 -->
+        <!-- 如果写了data.rows 相当于 data.data.row -->
+        <!-- 如果写rows 相当于 data.rows -->
+        <% for (var i = 0 ; i < data.rows.length;i++) { %>
+             <li> <%=rows[i].categoryName%></li>
+        <%}%>
+       
+     
+    </script>
+    <!-- 简洁模板旧版本 创建模板指定id 和 类型 -->
+    <script id="jianjieTpl" type="text/html">
+        <!-- 1. 简洁语法遍历使用each循环 -->
+        <!-- {{each rows as value index}} -->
+            <!-- value === 之前的rows[i] -->
+            <!-- index === 之前i -->
+            <!-- <li> {{rows[index].categoryName}} 循环索引{{index}}</li>
+        {{/each}} -->
+        {{each rows}}
+            <!-- $value === 之前的rows[i] -->
+            <!-- $index === 之前i -->
+            <li> {{$value.categoryName}} 循环索引{{$index}}</li>
+        {{/each}}         
+    </script>
+    <!-- 简洁模板新版本 创建模板指定id 和 类型 -->
+    <script id="jianjieNewTpl" type="text/html">
+        <!-- 1. 简洁语法遍历使用each循环 少了一个as-->
+        {{each rows value index}}
+            <!-- value === 之前的rows[i] -->
+            <!-- index === 之前i -->
+            <li> {{value.categoryName}} 循环索引{{index}}</li>
+        {{/each}}
+        
+       
+       
+     
+    </script>
+    <!-- 1. 引入原生包 -->
+    <!-- <script src="./m/lib/artTemplate/template-native.js"></script> -->
+    <!-- 2. 引入简洁的包 -->
+    <!-- <script src="./m/lib/artTemplate/template.js"></script> -->
+    <!-- 3. 引入简洁的新版本的包 -->
+    <script src="./m/lib/artTemplate/template-web.js"></script>
+    <!-- 引入jquery  admin是PC端 推荐使用jquery  大 兼容性好-->
+    <!-- <script src="./admin/lib/jquery/jquery.js"></script> -->
+    <!-- 引入zepto m是移动端 推荐使用zepto 因为小适合移动端-->
+    <script src="./m/lib/zepto/zepto.min.js"></script>
+    <script>
+        /* 1. 前端可以通过ajax去请求后台的接口
+            1. 写原生ajax 创建 打开连接 指定url 事件 接收数据
+            2. 使用封装的ajax函数（jquery的ajax） */
+        $.ajax({
+            url: 'http://localhost:3000/category/queryTopCategory',
+            // type: 'get', 默认就是get请求
+            // 如果API不需要传参
+            // data: {}, data参数可以不写
+            // dataType: 'json',默认返回类型也是json可以省略
+            success: function (data) {
+                // console.log(data);
+                // 模板引擎渲染页面
+                // 1. 引入模板包（）
+                //     1. template-native.js 最老的原生模板引擎 使用 <%%> 类似于php的模板
+                //     2. template.js 简洁的模板(老版本的) 使用{{}}  遍历的时候需要写as
+                //     3. template-web.js 简洁的模板(新版本)  使用{{}} 遍历的时候不需要写as
+                // 2. 写模板
+                //     1. 使用script 标签写模板 指定标签id 和 类型  类型不能是js 推荐 text/html
+                // 3. 调用模板
+                //     1. template函数
+                //     2. 第一个参数就是模板的id
+                //     3. 第二个参数是数据(对象形式的数据)
+                console.log(data);
+                // var html = template('tpl',data);
+                // var html = template('jianjieTpl',data);
+                var html = template('jianjieNewTpl',data);
+                console.log(html);
+                $('.category-left').html(html);
+
+                // 1. 总结模板引擎
+                //     1. 有3个包 模板语法不一样 但是调用模板语法都一样
+                //     2. 调用传的参数是对象
+                //     3. 对象里面有数组 遍历的时候如果数组名叫什么 就遍历什么 
+                //     4. 模板里面遍历不需要最外层的 如果数据里面data对象里面有rows数组 在遍历的时候只要写rows数组
+            }
+        })
+    </script>
+</body>
+
+</html>

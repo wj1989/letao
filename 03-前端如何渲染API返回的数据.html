@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul class="category-left">
+        <li>各种馆</li>
+    </ul>
+    <!-- 引入jquery  admin是PC端 推荐使用jquery  大 兼容性好-->
+    <!-- <script src="./admin/lib/jquery/jquery.js"></script> -->
+    <!-- 引入zepto m是移动端 推荐使用zepto 因为小适合移动端-->
+    <script src="./m/lib/zepto/zepto.min.js"></script>
+    <script>
+        /* 1. 前端可以通过ajax去请求后台的接口
+            1. 写原生ajax 创建 打开连接 指定url 事件 接收数据
+            2. 使用封装的ajax函数（jquery的ajax） */
+        $.ajax({
+            url: 'http://localhost:3000/category/queryTopCategory',
+            // type: 'get', 默认就是get请求
+            // 如果API不需要传参
+            // data: {}, data参数可以不写
+            // dataType: 'json',默认返回类型也是json可以省略
+            success: function (data) {
+                console.log(data);
+                // 1. 渲染得有数据了才能渲染 必须在success里面进行渲染 这个时候有数据了
+                // 2. 渲染的方式使用
+                //     1. 拼接字符串
+                        // 1. 循环遍历数据
+                        // 2. 拼接字符串
+                        // 3. 把拼接好的字符串放到页面
+                       
+                var html = '';
+                for(var i = 0 ; i < data.rows.length;i++){
+                    html+= '<li>'+data.rows[i].categoryName+'</li>';
+                }
+                console.log(html);
+                $('.category-left').html(html);
+            }
+        })
+    </script>
+</body>
+
+</html>

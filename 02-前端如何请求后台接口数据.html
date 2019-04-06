@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 引入jquery  admin是PC端 推荐使用jquery  大 兼容性好-->
+    <!-- <script src="./admin/lib/jquery/jquery.js"></script> -->
+    <!-- 引入zepto m是移动端 推荐使用zepto 因为小适合移动端-->
+    <script src="./m/lib/zepto/zepto.min.js"></script>
+    <script>
+        /* 1. 前端可以通过ajax去请求后台的接口
+            1. 写原生ajax 创建 打开连接 指定url 事件 接收数据
+            2. 使用封装的ajax函数（jquery的ajax） */
+        $.ajax({
+            url: 'http://localhost:3000/category/queryTopCategory',
+            // type: 'get', 默认就是get请求
+            // 如果API不需要传参
+            // data: {}, data参数可以不写
+            // dataType: 'json',默认返回类型也是json可以省略
+            success: function (data) {
+                console.log(data);
+            }
+        })
+        $.ajax({
+            url: 'http://localhost:3000/category/querySecondCategory',
+            type: 'get',
+            // 有些API如果文档说明需要传参 就必须传
+            data: {id:1},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+            }
+        })
+    </script>
+</body>
+
+</html>
